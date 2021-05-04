@@ -1,0 +1,169 @@
+
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Carrito de compras</h2> 
+    </div>
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Tu carrito</span>
+                <span class="badge badge-secondary badge-pill">3</span>
+            </h4>
+            <ul class="list-group mb-3 sticky-top" *ngFor="let item of userCart">
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">{{item?.name}}</h6>
+                        <small class="text-muted">Cantidad : {{item?.quantity}}</small>
+                    </div>
+                    <span class="text-muted">{{ item?.totalAmount | currency:'$'}}</span>
+                </li>    
+            </ul>
+            <ul class="list-group mb-3 sticky-top">
+                 <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (CLP)</span>
+                    <strong>{{totalPurchase | currency:'$'}}</strong>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Billing address</h4>
+            <form class="needs-validation" [formGroup]="checkoutForm" >
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName" >Nombre</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="" required="" formControlName="name">
+                        <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="alert alert-danger">
+                            <p *ngIf="name?.errors?.required">Por favor ingrese su nombre</p>
+                            <p *ngIf="name?.errors?.minlength">Debe tener mínimo 3 caracteres</p>
+                            <p *ngIf="name.errors?.maxlength">Debe tener máximo 50 caracteres</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">Last name</label>
+                        <input type="text" class="form-control" id="lastName" placeholder=""  required="" formControlName="lastname">
+                        <div *ngIf="lastname?.invalid && (lastname?.dirty || lastname?.touched)" class="alert alert-danger">
+                            <p *ngIf="lastname?.errors?.required">Por favor ingrese su apellido</p>
+                            <p *ngIf="lastname?.errors?.minlength">Debe tener mínimo 3 caracteres</p>
+                            <p *ngIf="lastname.errors?.maxlength">Debe tener máximo 50 caracteres</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                    <input type="email" class="form-control" id="email" placeholder="you@example.com" ngModel [email]="true" formControlName="email">
+                    <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="alert alert-danger">
+                            <p *ngIf="email?.errors?.required">Por favor ingrese su email</p>
+                            <p *ngIf="email.errors?.minlength">Debe tener mínimo 4 caracteres</p>
+                            <p *ngIf="email?.errors?.maxlength">Debe tener máximo 50 caracteres</p>
+                        </div>
+                </div>
+                <div class="mb-3">
+                    <label for="address">Dirección</label>
+                    <input type="text" class="form-control" id="address" placeholder="1234 Main St" formControlName="address">
+                    <div *ngIf="address?.invalid && (address?.dirty || address?.touched)" class="alert alert-danger">
+                            <p *ngIf="address?.errors?.required">Por favor ingrese su dirección</p>
+                            <p *ngIf="address?.errors?.minlength">Debe tener mínimo 3 caracteres</p>
+                            <p *ngIf="address?.errors?.maxlength">Debe tener máximo 50 caracteres</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="country">País</label>
+                        <select class="custom-select d-block w-100" id="country"  formControlName="country">
+                            <option value="">Seleccionar...</option>
+                            <option value="Chile">Chile</option>
+                        </select>
+                        <div *ngIf="country?.invalid && (country?.dirty || country?.touched)" class="alert alert-danger">
+                            <p *ngIf="country?.errors?.required">Por favor ingrese su país</p>
+                            <p *ngIf="country?.errors?.minlength">Debe tener mínimo 3 caracteres</p>
+                            <p *ngIf="country?.errors?.maxlength">Debe tener máximo 50 caracteres</p>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="state">Ciudad</label>
+                        <select class="custom-select d-block w-100" id="state" formControlName="city">
+                            <option value="">Seleccionar...</option>
+                            <option value="Santiago">Santiago</option>
+                            <option value="Iquique">Iquique</option>
+                        </select>
+                        <div *ngIf="city?.invalid && (city?.dirty || city?.touched)" class="alert alert-danger">
+                            <p *ngIf="city?.errors?.required">Por favor ingrese su ciudad</p>
+                            <p *ngIf="city?.errors?.minlength">Debe tener mínimo 3 caracteres</p>
+                            <p *ngIf="city?.errors?.maxlength">Debe tener máximo 50 caracteres</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="zip">Código postal</label>
+                        <input type="number" class="form-control" id="zip" placeholder="" required="" formControlName="postalCode">
+                        <div *ngIf="postalCode?.invalid && (postalCode?.dirty || postalCode?.touched)" class="alert alert-danger">
+                            <p *ngIf="postalCode?.errors?.required">Por favor ingrese su código postal</p>
+                            <p *ngIf="postalCode?.errors?.minlength">Debe tener mínimo 3 caracteres</p>
+                            <p *ngIf="postalCode?.errors?.maxlength">Debe tener máximo 50 caracteres</p>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <h4 class="mb-3">Información de pago</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-name">Nombre de la tarjeta</label>
+                        <input type="text" class="form-control" id="cc-name" placeholder="" required="" formControlName="cardName">
+                        <small class="text-muted">Nombre escrito como en tarjeta</small>
+                        <div *ngIf="cardName?.invalid && (cardName?.dirty || cardName?.touched)" class="alert alert-danger">
+                            <p *ngIf="cardName?.errors?.required">Por favor ingrese el nombre</p>
+                            <p *ngIf="cardName?.errors?.minlength">Debe tener mínimo 3 caracteres</p>
+                            <p *ngIf="cardName?.errors?.maxlength">Debe tener máximo 50 caracteres</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-number">Número de tarjeta</label>
+                        <input type="text" class="form-control" id="cc-number" placeholder="1111-1111-1111-1111"  formControlName="creditCardNumber" ngModel pattern="\d{4}-\d{4}-\d{4}-\d{4}">
+                        <div *ngIf="creditCardNumber?.invalid && (creditCardNumber?.dirty || creditCardNumber?.touched)" class="alert alert-danger" >
+                            <p *ngIf="creditCardNumber?.errors?.required">Por favor ingrese su tarjeta de crédito</p>
+                            <p *ngIf="creditCardNumber?.errors?.minlength">Debe tener mínimo 19 caracteres</p>
+                            <p *ngIf="creditCardNumber?.errors?.pattern">Su tarjeta no se encuentra correcta</p>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration">Mes Expiración</label>
+                        <input type="number" class="form-control" id="cc-expiration" placeholder="" required="" formControlName="expiresIn" min="1" max="12">
+                        <div *ngIf="expiresIn?.invalid && (expiresIn?.dirty || expiresIn?.touched)" class="alert alert-danger">
+                            <p *ngIf="expiresIn?.errors?.required">La fecha de expiración es obligatoria</p>
+                            <p *ngIf="expiresIn?.errors?.minlength">Debe tener mínimo 1 caracteres</p>
+                            <p *ngIf="expiresIn?.errors?.maxlength">Debe tener máximo 1 caracteres</p>
+                            <p *ngIf="expiresIn?.errors?.min">Debe un valor mayor a 1</p>
+                            <p *ngIf="expiresIn?.errors?.max">Debe un valor menor a 12</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="year">Año Expiración</label>
+                        <input type="number" class="form-control" id="year" placeholder="" required="" formControlName="year" min="2021">
+                        <div *ngIf="year?.invalid && (year?.dirty || year?.touched)" class="alert alert-danger">
+                            <p *ngIf="year?.errors?.required">El saño de expiración es obligatoria</p>
+                            <p *ngIf="year?.errors?.minlength">Debe tener mínimo 4 caracteres</p>
+                            <p *ngIf="year?.errors?.maxlength">Debe tener máximo 4 caracteres</p>
+                            <p *ngIf="year?.errors?.min">Debe un valor igual o superior  a 2021</p>
+                         
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-cvv">CVV</label>
+                        <input type="text" class="form-control" id="cc-cvv" formControlName="CVV">
+                        <div *ngIf="CVV?.invalid && (CVV?.dirty || CVV?.touched)" class="alert alert-danger">
+                            <p *ngIf="CVV?.errors?.required">Código de seguridad es obligatorio</p>
+                            <p *ngIf="CVV?.errors?.minlength">Debe tener mínimo 3 caracteres</p>
+                            <p *ngIf="CVV?.errors?.maxlength">Debe tener máximo 3 caracteres</p>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="checkoutForm.invalid" (click)="checkoutProcess()">Proceder a pagar</button>
+            </form>
+        </div>
+    </div>
+
+</div>

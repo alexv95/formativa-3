@@ -1,0 +1,108 @@
+
+<div class="container">
+<h2>Listado de productos</h2>
+<table class="table table-striped table-bordered table-sm row-border hover" datatable [dtOptions]="dtOptions">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Código</th>
+      <th>Stock</th>
+      <th>Precio</th>
+    </tr>
+  </thead>
+  <tbody>
+   <tr *ngFor="let group of data">
+         <td>{{group?.name}}</td>
+         <td>{{group?.code}}</td>
+         <td>{{group?.stock}}</td>
+         <td>{{group?.price | currency:'$'}}</td>
+     </tr>
+  </tbody>
+</table>
+</div>
+
+
+<br>
+<br>
+<br>
+
+<div class="container" >
+    <h2>Agregar productos al carrito de compras</h2>
+    <form [formGroup]="formulario" >
+
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+        <div class="row mb-4">
+            <div class="col">
+            <div class="form-outline">
+                <input type="text" id="form3Example1" class="form-control" formControlName="code" />
+                <label class="form-label" for="form3Example1" >Código</label>
+                <div *ngIf="code?.invalid && (code?.dirty || code?.touched)" class="alert alert-danger">
+                    <p *ngIf="code?.errors?.required">Por favor ingrese un código</p>
+                    <p *ngIf="code?.errors?.minlength">Debe tener mínimo 3 caracteres</p>
+                    <p *ngIf="code.errors?.pattern">El patrón de la tarjeta es incorrecto</p>
+                </div>
+            </div>
+            </div>
+            <div class="col">
+            <div class="form-outline">
+                <input type="number" id="form3Example2" class="form-control" formControlName="quantity" min="1"/>
+                <label class="form-label" for="form3Example2">Cantidad de productos a llevar</label>
+                <div *ngIf="quantity?.invalid && (quantity?.dirty || quantity?.touched)" class="alert alert-danger">
+                    <p *ngIf="quantity?.errors?.required">Por favor ingrese un número mayor a cero</p>
+                    <p *ngIf="quantity?.errors?.min">Debe tener mínimo un valor mayor a 1</p>
+
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- Submit button -->
+
+        <div class="text-center">
+                <button  type="button" class="btn btn-primary btn-block" (click)="updateCart()">Agregar producto</button>
+        </div>
+       
+
+    <!-- Register buttons -->
+
+    </form>
+<br>
+<br>
+
+    <div class="container">
+        <table class="table table-striped table-bordered table-sm row-border hover">
+        <thead>
+            <tr>
+            <th>Name</th>
+            <th>Código</th>
+            <th>Cantidad</th>
+            <th>Precio unitario</th>
+            <th>Total</th>
+            <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of currentCart;let position=index">
+        
+                <td>{{item?.name}}</td>
+                <td>{{item?.code}}</td>
+                <td>{{item?.quantity}}</td>
+                <td>{{item?.unitPrice | currency:'$'}}</td>
+                <td>{{item?.totalAmount | currency:'$'}}</td>
+                <td>
+                    <button type="submit" class="btn btn-success" (click)="operationForAmount('add',position)"><i class="fa fa-plus"></i></button>
+                    <button type="submit" class="btn btn-danger" (click)="operationForAmount('substract',position)"><i class="fa fa-minus"></i></button>
+                    <button type="submit" class="btn btn-outline-danger" (click)="deleteFromCart(position)"><i class="fa fa-trash"> Eliminar</i></button>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+
+    </div>
+
+
+    <div class="container">
+        <button type="submit" class="btn btn-success" (click)="payment()">Proceder a pagar</button>
+    </div>
+
+
+</div>
